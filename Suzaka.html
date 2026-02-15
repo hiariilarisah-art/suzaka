@@ -1,0 +1,508 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sujets d'examen | Géographie (Université d'Antananarivo)</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: #f4f7fb;
+      color: #1e293b;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem;
+    }
+
+    /* Header */
+    header {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+      padding: 1rem 0;
+      border-bottom: 1px solid #e9eef2;
+    }
+
+    .header-content {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .site-title h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0b3954;
+      letter-spacing: -0.02em;
+    }
+
+    .site-title p {
+      font-size: 1rem;
+      color: #4a5c6c;
+      margin-top: 0.2rem;
+      font-weight: 400;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #2c3e50;
+      padding-bottom: 0.25rem;
+      border-bottom: 2px solid transparent;
+      transition: 0.2s;
+    }
+
+    nav a.active {
+      color: #0f6b8c;
+      border-bottom-color: #0f6b8c;
+    }
+
+    /* Filter bar */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 2rem 0 1.5rem;
+      background: white;
+      padding: 1.2rem 1.5rem;
+      border-radius: 60px;
+      box-shadow: 0 6px 14px rgba(0,30,50,0.05);
+      justify-content: center;
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: none;
+      padding: 0.6rem 1.4rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 0.95rem;
+      border-radius: 40px;
+      color: #2c3e50;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid #dde3e9;
+      background-color: white;
+    }
+
+    .filter-btn:hover {
+      background-color: #e7edf4;
+      border-color: #a0b8cc;
+    }
+
+    .filter-btn.active {
+      background-color: #1e4a6d;
+      color: white;
+      border-color: #1e4a6d;
+      box-shadow: 0 4px 8px rgba(22,78,99,0.2);
+    }
+
+    /* Cards grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.8rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 1.5rem 1.3rem;
+      box-shadow: 0 8px 20px rgba(0,20,40,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid rgba(0,0,0,0.02);
+      display: flex;
+      flex-direction: column;
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 18px 30px rgba(24, 60, 90, 0.12);
+    }
+
+    .card.hidden {
+      display: none;
+    }
+
+    .card-icon {
+      font-size: 2.2rem;
+      margin-bottom: 0.8rem;
+      color: #1e4a6d;
+    }
+
+    .card-matiere {
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #4f6f8f;
+      margin-bottom: 0.4rem;
+    }
+
+    .card-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 0.9rem;
+      color: #0b2b3b;
+    }
+
+    .card-question {
+      font-style: italic;
+      background-color: #f4f9ff;
+      padding: 1rem;
+      border-radius: 12px;
+      margin: 1rem 0 0.8rem;
+      color: #153e5a;
+      font-size: 0.95rem;
+      border-left: 3px solid #5483a7;
+    }
+
+    .card-question i {
+      color: #2b6c94;
+      margin-right: 6px;
+    }
+
+    .card-session {
+      display: inline-block;
+      background-color: #e8edf2;
+      padding: 0.35rem 1rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #2c3e50;
+      margin: 0.5rem 0 0.8rem;
+      width: fit-content;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 0.7rem;
+      border-top: 1px solid #ecf1f6;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      background-color: #e0e9f2;
+      color: #1d3c5c;
+      text-transform: uppercase;
+    }
+
+    /* couleurs de badge spécifiques */
+    .badge[data-matiere="Lithosphère"] { background: #feead6; color: #a14500; }
+    .badge[data-matiere="Hydrosphère"] { background: #d4ecff; color: #005c8a; }
+    .badge[data-matiere="Atmosphère"] { background: #dcfce8; color: #0b6e41; }
+    .badge[data-matiere="Environnement"] { background: #e1f7d5; color: #2e7d32; }
+    .badge[data-matiere="Espaces urbains"] { background: #efe2ff; color: #5e2e8a; }
+    .badge[data-matiere="Malagasy"] { background: #ffe2d6; color: #aa3e2e; }
+
+    /* Footer */
+    footer {
+      background-color: white;
+      margin-top: 4rem;
+      padding: 2rem 0;
+      border-top: 1px solid #dce5ec;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+      color: #356a89;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      .header-content {
+        flex-direction: column;
+        align-items: start;
+      }
+      .filter-bar {
+        border-radius: 30px;
+        padding: 1rem;
+      }
+      .filter-btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <div class="site-title">
+        <h1>📚 Sujets d'examen – Géographie (L1)</h1>
+        <p>Université d'Antananarivo – Extraits d'épreuves réelles</p>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#">Accueil</a></li>
+          <li><a href="#" class="active">Examens</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- FILTRES PAR MATIÈRE -->
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">Tous</button>
+      <button class="filter-btn" data-filter="Lithosphère">Lithosphère</button>
+      <button class="filter-btn" data-filter="Hydrosphère">Hydrosphère</button>
+      <button class="filter-btn" data-filter="Atmosphère">Atmosphère</button>
+      <button class="filter-btn" data-filter="Environnement">Environnement</button>
+      <button class="filter-btn" data-filter="Espaces urbains">Espaces urbains</button>
+      <button class="filter-btn" data-filter="Malagasy">Malagasy</button>
+    </div>
+
+    <!-- GRILLE DE CARTES (12 sujets avec extraits authentiques) -->
+    <div class="cards-grid" id="cardsGrid">
+      <!-- Carte 1 : Lithosphère – Relief sous-marin -->
+      <div class="card" data-category="Lithosphère">
+        <div class="card-icon"><i class="fas fa-water"></i></div>
+        <div class="card-matiere">Lithosphère</div>
+        <div class="card-title">Relief sous-marin</div>
+        <div class="card-question"><i class="fas fa-quote-left"></i> Schématisez et donnez les caractéristiques qui définissent les grands ensembles du relief sous-marin.</div>
+        <span class="card-session">Session normale L1S1</span>
+        <div class="card-footer">
+          <span class="badge" data-matiere="Lithosphère">Lithosphère</span>
+        </div>
+      </div>
+
+      <!-- Carte 2 : Lithosphère – Relief continental -->
+      <div class="card" data-category="Lithosphère">
+        <div class="card-icon"><i class="fas fa-mountain"></i></div>
+        <div class="card-matiere">Lithosphère</div>
+        <div class="card-title">Relief continental</div>
+        <div class="card-question"><i class="fas fa-quote-left"></i> Schématisez et donnez les caractéristiques qui définissent les grands ensembles du relief en milieu continental.</div>
+        <span class="card-session">Session normale L1S1</span>
+        <div class="card-footer">
+          <span class="badge" data-matiere="Lithosphère">Lithosphère</span>
+        </div>
+      </div>
+
+      <!-- Carte 3 : Lithosphère – Définitions (géomorphologie, faille, etc.) -->
+      <div class="card" data-category="Lithosphère">
+        <div class="card-icon"><i class="fas fa-gear"></i></div>
+        <div class="card-matiere">Lithosphère</div>
+        <div class="card-title">Définitions – structure</div>
+        <div class="card-question"><i class="fas fa-quote-left"></i> Définissez : géomorphologie, gravimétrie, courants de convection, facteurs d'élaboration d'un relief continental, phénomène de capture, tectonique, relief de cuesta, faille verticale conforme, faille normale contraire, escarpement double, cas d'inadaptation.</div>
+        <span class="card-session">Session normale L1S1</span>
+        <div class="card-footer">
+          <span class="badge" data-matiere="Lithosphère">Lithosphère</span>
+        </div>
+      </div>
+
+      <!-- Carte 4 : Hydrosphère – Exploration des fonds marins -->
+      <div class="card" data-category="Hydrosphère">
+        <div class="card-icon"><i class="fas fa-ship"></i></div>
+        <div class="card-matiere">Hydrosphère</div>
+        <div class="card-title">Exploration des fonds marins</div>
+        <div class="card-question"><i class="fas fa-quote-left"></i> Ces dernières décennies, la connaissance des fonds marins et de leur origine a fait des progrès remarquables. Quels sont les différents moyens d'exploration utilisés par les chercheurs pour étudier ces immensités ?</div>
+        <span class="card-session">Session normale</span>
+        <div class="card-footer">
+          <span class="badge" data-matiere="Hydrosphère">Hydrosphère</span>
+        </div>
+      </div>
+
+      <!-- Carte 5 : Hydrosphère – Mouvements de convergence des plaques -->
+      <div class="card" data-category="Hydrosphère">
+        <div class="card-icon"><i class="fas fa-arrow-trend-up"></i></div>
+        <div class="card-matiere">Hydrosphère</div>
+        <div class="card-title">Convergence des plaques</div>
+        <div class="card-question"><i class="fas fa-quote-left"></i> Expliquez les mouvements de convergence des plaques : 1- Appellations, 2- Manifestations, 3- Conséquences avec des schémas.</div>
+        <span class="card-session">Session normale</span>
+        <div class="card-footer">
+          <span class="badge" data-matiere="Hydrosphère">Hydrosphère</span>
+        </div>
+      </div>
+
+      <!-- Carte 6 : Atmosphère – Thermodynamique de l'atmosphère -->
+      <div class="card" data-category="Atmosphère">
+        <div class="card-icon"><i class="fas fa-wind"></i></div>
+        <div class="card-matiere">Atmosphère</div>
+        <div class="card-title">Thermodynamique</div>
+        <div class="card-question"><i class="fas fa-quote-left"></i> Soit une particule d'air P dont la pression est de 900hPa, la température de 23°C et la quantité de vapeur d'eau réellement contenue dans l'air est de 10g/kg d'air sec. Calculez l'humidité relative, température potentielle, point de condensation, température du point de rosée, température réelle à 800hPa et 700hPa…</div>
+        <span class="card-session">Session normale</span>
+        <div class="card-footer">
+          <span class="badge" data-matiere="Atmosphère">Atmosphère</span>
+        </div>
+      </div>
+
+      <!-- Carte 7 : Atmosphère – Définitions (Coriolis, cyclone...) -->
+      <div class="card" data-category="Atmosphère">
+        <div class="card-icon"><i class="fas fa-cloud-rain"></i></div>
+        <div class="card-matiere">Atmosphère</div>
+        <div class="card-title">Définitions – météo</div>
+        <div class="card-question"><i class="fas fa-quote-left"></i> Définissez : force de Coriolis, cyclone, vent dominant, lumière visible, effet de foehn, onde électromagnétique, gaz à effet de serre, chaleur latente, front, zone de convergence intertropicale.</div>
+        <span class="card-session">Session de repêchage</span>
+        <div class="card-footer">
+          <span class="badge" data-matiere="Atmosphère">Atmosphère</span>
+        </div>
+      </div>
+
+      <!-- Carte 8 : Environnement – Écologie (biotope, biocénose) -->
+      <div class="card" data-category="Environnement">
+        <div class="card-icon"><i class="fas fa-leaf"></i></div>
+        <div class="card-matiere">Environnement</div>
+        <div class="card-title">Écologie fondamentale</div>
+        <div class="card-question"><i class="fas fa-quote-left"></i> Définir : biotope, biocénose, facteur écologique, amplitude écologique, compétition, humus, minéralisation.</div>
+        <span class="card-session">Session normale 2018-19</span>
+        <div class="card-footer">
+          <span class="badge" data-matiere="Environnement">Environnement</span>
+        </div>
+      </div>
+
+      <!-- Carte 9 : Environnement – Formation des sols -->
+      <div class="card" data-category="Environnement">
+        <div class="card-icon"><i class="fas fa-mound"></i></div>
+        <div class="card-matiere">Environnement</div>
+        <div class="card-title">Pédogenèse</div>
+        <div class="card-question"><i class="fas fa-quote-left"></i> Expliquer les processus de formation du sol : altération de la roche mère, activités biologiques et apports de matières organiques, mécanisme de mise en place des horizons, les types de sols.</div>
+        <span class="card-session">Session normale</span>
+        <div class="card-footer">
+          <span class="badge" data-matiere="Environnement">Environnement</span>
+        </div>
+      </div>
+
+      <!-- Carte 10 : Espaces urbains – Mégapoles et villes millionnaires -->
+      <div class="card" data-category="Espaces urbains">
+        <div class="card-icon"><i class="fas fa-city"></i></div>
+        <div class="card-matiere">Espaces urbains</div>
+        <div class="card-title">Mégapoles</div>
+        <div class="card-question"><i class="fas fa-quote-left"></i> 1) Définir une MÉGAPOLE. 2) Donnez des exemples : une mégapole européenne, une asiatique, une africaine. 3) Les villes millionnaires ont évolué dans le temps et dans l'espace depuis le XIXe siècle. Pourquoi ?</div>
+        <span class="card-session">Session normale 2019-20</span>
+        <div class="card-footer">
+          <span class="badge" data-matiere="Espaces urbains">Espaces urbains</span>
+        </div>
+      </div>
+
+      <!-- Carte 11 : Malagasy – Angano et fedra -->
+      <div class="card" data-category="Malagasy">
+        <div class="card-icon"><i class="fas fa-book-open"></i></div>
+        <div class="card-matiere">Malagasy</div>
+        <div class="card-title">Angano & Fedra</div>
+        <div class="card-question"><i class="fas fa-quote-left"></i> Ampitahao amin'ny antsoina hoe Angano ny antsoina hoe Fedra. (Comparez ce qu'on appelle Angano avec ce qu'on appelle Fedra.)</div>
+        <span class="card-session">Session de rattrapage</span>
+        <div class="card-footer">
+          <span class="badge" data-matiere="Malagasy">Malagasy</span>
+        </div>
+      </div>
+
+      <!-- Carte 12 : Malagasy – Faribolana (cycles épiques) -->
+      <div class="card" data-category="Malagasy">
+        <div class="card-icon"><i class="fas fa-dragon"></i></div>
+        <div class="card-matiere">Malagasy</div>
+        <div class="card-title">Faribolana – Ibonia</div>
+        <div class="card-question"><i class="fas fa-quote-left"></i> Omeo ny faribolana anankiray ao amin'ny fedran'ibonia, ka: a) Tanisao ny singa mamorona ny faribolana, b) Omeo ny eva dindon'ny faribolana, c) Mbola mitoetra mandraka ankehitriny ve, araka ny hevitrao, ny kolontsaina voalaza ao amin'ny b ? Hamarino amin'ny alalan'ny ohatra ny valin-teninao.</div>
+        <span class="card-session">Session normale</span>
+        <div class="card-footer">
+          <span class="badge" data-matiere="Malagasy">Malagasy</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container footer-content">
+      <p>© 2025 Université d'Antananarivo – Données extraites d'examens réels, sous réserve de modifications.</p>
+      <div class="footer-links">
+        <a href="#">À propos</a>
+        <a href="#">Mentions légales</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript pour le filtrage -->
+  <script>
+    (function() {
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const cards = document.querySelectorAll('.card');
+
+      function filterCards(category) {
+        cards.forEach(card => {
+          if (category === 'all' || card.dataset.category === category) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      }
+
+      function setActiveButton(activeFilter) {
+        filterButtons.forEach(btn => {
+          const btnFilter = btn.dataset.filter;
+          if (btnFilter === activeFilter) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+      }
+
+      filterButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+          const filterValue = this.dataset.filter;
+          filterCards(filterValue);
+          setActiveButton(filterValue);
+        });
+      });
+
+      // Initialisation : "Tous" est actif par défaut
+      filterCards('all');
+    })();
+  </script>
+
+  <!-- Note : tous les intitulés sont conservés intégralement -->
+</body>
+</html>
